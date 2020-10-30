@@ -54,8 +54,7 @@ Visualizer::Visualizer(QWidget *parent)
 		
 		//Link ConfigureEventProcess to interactor ConfigureEvent to update message box with the current selected boxwidget
 		ui->qvtkWidget->GetInteractor()->AddObserver(vtkCommand::ConfigureEvent, this, &Visualizer::ConfigureEventProcess);
-		ui->qvtkWidget->update();	
-
+		
 		// UI
 		connect(ui->action_Open,&QAction::triggered,this,&Visualizer::openFile);
 		connect(ui->action_Save,&QAction::triggered,this,&Visualizer::save);
@@ -98,11 +97,43 @@ void Visualizer::initialize()
 
 	// init label type
 	Annotation::getTypes()->clear();
-	Annotation::getTypes()->push_back("dontCare");
-	Annotation::getTypes()->push_back("cyclist");
-	Annotation::getTypes()->push_back("pedestrian");
-	Annotation::getTypes()->push_back("vehicle");
-	Annotation::getTypes()->push_back("unknown");
+	Annotation::getTypes()->push_back("wall");
+	Annotation::getTypes()->push_back("floor");
+	Annotation::getTypes()->push_back("cabinet");
+	Annotation::getTypes()->push_back("bed");
+	Annotation::getTypes()->push_back("chair");
+	Annotation::getTypes()->push_back("sofa");
+	Annotation::getTypes()->push_back("table");
+	Annotation::getTypes()->push_back("door");
+	Annotation::getTypes()->push_back("window");
+	Annotation::getTypes()->push_back("bookshelf");
+	Annotation::getTypes()->push_back("picture");
+	Annotation::getTypes()->push_back("counter");
+	Annotation::getTypes()->push_back("blinds");
+	Annotation::getTypes()->push_back("desk");
+	Annotation::getTypes()->push_back("shelves");
+	Annotation::getTypes()->push_back("curtain");
+	Annotation::getTypes()->push_back("dresser");
+	Annotation::getTypes()->push_back("pillow");
+	Annotation::getTypes()->push_back("mirror");
+	Annotation::getTypes()->push_back("floor_mat");
+	Annotation::getTypes()->push_back("clothes");
+	Annotation::getTypes()->push_back("ceiling");
+	Annotation::getTypes()->push_back("books");
+	Annotation::getTypes()->push_back("fridge");
+	Annotation::getTypes()->push_back("tv");
+	Annotation::getTypes()->push_back("paper");
+	Annotation::getTypes()->push_back("towel");
+	Annotation::getTypes()->push_back("shower_curtain");
+	Annotation::getTypes()->push_back("box");
+	Annotation::getTypes()->push_back("whiteboard");
+	Annotation::getTypes()->push_back("person");
+	Annotation::getTypes()->push_back("night_stand");
+	Annotation::getTypes()->push_back("toilet");
+	Annotation::getTypes()->push_back("sink");
+	Annotation::getTypes()->push_back("lamp");
+	Annotation::getTypes()->push_back("bathtub");
+	Annotation::getTypes()->push_back("bag");
 	FlowLayout *layout = new FlowLayout();
 
 	for(auto type : *(Annotation::getTypes())){
@@ -196,6 +227,7 @@ void Visualizer::pickAnnotation(double x,double y){
 		camera2 =  vtkSmartPointer<vtkCamera>::New();
 		camera3 =  vtkSmartPointer<vtkCamera>::New();
 
+
 		currPickedAnnotation = clicked;	
 		currPickedAnnotation->picked(viewer->getRenderWindowInteractor());
 		viewer->getRenderWindow()->GetInteractor()->ConfigureEvent();	
@@ -248,6 +280,7 @@ void Visualizer::pickAnnotation(double x,double y){
 		pointsInBox();
 	
 		}
+	
 
 }
 
@@ -285,9 +318,6 @@ void Visualizer::removeAnnotation(Annotation *anno)
 		currPickedAnnotation->unpicked();
 		currPickedAnnotation=NULL;
 	}
-
-	annoManager->remove(anno);
-
 	viewer->removeActorFromRenderer(anno->getActor());
 }
 
@@ -585,7 +615,6 @@ void Visualizer::KeyboardEventProcess(const KeyboardEvent& event)
  * */
 void Visualizer::openFile()
 {
-
 	//change location of open file to user desktop
 	string path(getenv("HOME"));
 	path += "/Desktop/";
@@ -594,9 +623,7 @@ void Visualizer::openFile()
 	pointcloudFileName = QFileDialog::getOpenFileName(this, tr("Open PCD file"), qstr, tr("PCD Files (*.pcd *.bin)")).toStdString();
 	if (pointcloudFileName.empty()) return;
 
-  	viewer->removeAllShapes();
 	clear();
-
 	QFileInfo file(QString::fromStdString(pointcloudFileName));
 	QString ext = file.completeSuffix();  // ext = "bin" ,"pcd"
 
@@ -613,28 +640,8 @@ void Visualizer::openFile()
 	annotationFileName=pointcloudFileName+".txt";
 	if (QFile::exists(QString::fromStdString(annotationFileName))){
 		annoManager->loadAnnotations(annotationFileName);
-	}else{
-		//Try load from previous PCD
-		string previous_file_name = pointcloudFileName;
-		
-		previous_file_name.erase(previous_file_name.find(".pcd"), 4);
-		std::size_t found = previous_file_name.find_last_of("/\\");
-
-		std::string sub1 = previous_file_name.substr(0, found+1);
-		std::string sub2 = previous_file_name.substr(found+1);
-
-		int temp = std::stoi(sub2);
-		temp -= 1;
-
-		annotationFileName= sub1 + std::to_string(temp) + ".pcd.txt";
-		std::cout<<annotationFileName<<std::endl;
-
-		if(QFile::exists(QString::fromStdString(annotationFileName))){
-			annoManager->loadAnnotations(annotationFileName);
-		}
-		annotationFileName=pointcloudFileName+".txt";
 	}
- 
+
 	refresh();
 	std::cout<<"Instructions: "<<std::endl;
 	std::cout<<"    Mouse Center : Pan camera view"<<std::endl;
