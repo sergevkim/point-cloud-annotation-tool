@@ -134,6 +134,7 @@ void Visualizer::initialize()
 	Annotation::getTypes()->push_back("lamp");
 	Annotation::getTypes()->push_back("bathtub");
 	Annotation::getTypes()->push_back("bag");
+	Annotation::getTypes()->push_back("wardrobe");
 	FlowLayout *layout = new FlowLayout();
 
 	for(auto type : *(Annotation::getTypes())){
