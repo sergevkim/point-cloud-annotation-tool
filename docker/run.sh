@@ -21,6 +21,8 @@ cd $HOST_PATH
     -e DISPLAY=$DISPLAY \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    --volume="/datasets:/datasets" \
+    --volume="/home/sergevkim:/home/sergevkim" \
     --expose $PORT \
     --runtime=nvidia \
     -p $PORT:$PORT \

@@ -48,10 +48,10 @@
         </layout>
        </widget>
        <widget class="QGroupBox" name="groupBox_Types">
-        <property name="maximumSize">
+        <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>200</height>
+          <width>250</width>
+          <height>750</height>
          </size>
         </property>
         <property name="title">
