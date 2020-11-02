@@ -7,6 +7,25 @@ Master |[![CircleCI](https://circleci.com/gh/Louisgcr/point-cloud-annotation-too
 ##  point cloud annotation tool
 It is a tool used to annotate 3D box in point cloud. Point cloud in KITTI-bin format is supported. Annotation format is the same as Applo 3D format. Data examples can be found at [here](http://data.apollo.auto/help?name=data_intro_3d&data_key=lidar_obstacle_label&data_type=0&locale=en-us&lang=en).
 
+## Tutorial from @sergevkim:
+
+- Перейти в папку `docker`
+- `./build.sh <name>`
+- `./run.sh <name> <port-id>`
+
+Внутри контейнера сам инструмент будет лежать в ~/pcat/build/point_cloud_annotation_tool
+
+Интерфейс довольно незамысловат:
+
+- Нажать на <Open> в Menubar. Обращаю внимание, что открыть .ply файлик нельзя, для этого надо конвертировать .ply в .pcd. Прилагаю .py скрипт для конвертации:
+
+`import open3d as o3d
+pcd = o3d.io.read_point_cloud("<ply_path>")
+o3d.io.write_point_cloud("<pcd_path>", pcd)`
+
+- Нажать <X> - перейти в режим разметки/выйти из него. В режиме разметки можно размечать коробки
+- Нажать на <Save> в Menubar. Результат сохранится в "<pcd_path>.txt". В этом файле лежат только описания короб в следующем формате: label x y z length width height yaw (desk 5.131035 0.391286 -2.334609 16.185757 14.443742 23.234538 0.000000), где плоскость пола - xy
+
 ![example1 image](example_new.png)
 
 ![Demo](pcl_demo.gif)
@@ -26,7 +45,7 @@ It is a tool used to annotate 3D box in point cloud. Point cloud in KITTI-bin fo
 - Box Opacity reduce to see through box 
 - Lowered point intensity to see clearer
 
-### usage 
+### usage
 - if *cloud.bin* is open, then *cloud.bin.txt* will be the annotation file to be loaded if exist.
 - click to select an annotaion, then edit it, rotate it or just press 'Del' to delete.
 - 'x' to toggle selection mode,then left click with ctrl or shift to help select.
