@@ -141,6 +141,7 @@ RUN sudo wget https://github.com/PointCloudLibrary/pcl/archive/pcl-1.8.1.tar.gz 
     sudo make -j4 install && \
     cd ../..
 
+RUN ls -l -a
 #PCAT
 RUN cd ~/ && \
     sudo git clone https://github.com/sergevkim/point-cloud-annotation-tool.git pcat && \

@@ -22,6 +22,7 @@ cd $HOST_PATH
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume="/datasets:/datasets" \
+    --volume="/home/sergevkim:/home/sergevkim" \
     --expose $PORT \
     --runtime=nvidia \
     -p $PORT:$PORT \
@@ -29,7 +30,6 @@ cd $HOST_PATH
     --name $NAME \
     $NAME
 ) || true
-#--volume="/home/sergevkim:/home/sergevkim" \
 
 docker container exec -it $NAME bash
 #docker container exec -it $NAME bash -c "
