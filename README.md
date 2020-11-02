@@ -9,7 +9,10 @@ It is a tool used to annotate 3D box in point cloud. Point cloud in KITTI-bin fo
 
 ## Tutorial from @sergevkim:
 
-- Перейти в папку `docker`
+__ВНИМАНИЕ!!!__ Необходимо выделить 30 (тридцать) GB под Docker образ
+
+Чтобы собрать запустить контейнер:
+- Перейти в папку `point-cloud-annotation-tool/docker`
 - `./build.sh <name>`
 - `./run.sh <name> <port-id>`
 
