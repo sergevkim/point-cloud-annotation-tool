@@ -17,16 +17,17 @@ It is a tool used to annotate 3D box in point cloud. Point cloud in KITTI-bin fo
 
 Интерфейс довольно незамысловат:
 
-- Нажать на __Open__ в Menubar. Обращаю внимание, что открыть .ply файл нельзя (но .pcd можно). Прилагаю .py скрипт для конвертации .ply в .pcd:
+- Нажать на __Open__ (или __File__, __Open__) в Menubar. Обращаю внимание, что открыть .ply файл нельзя (но .pcd можно). Прилагаю .py скрипт для конвертации .ply в .pcd:
 
 `import open3d as o3d`
 `pcd = o3d.io.read_point_cloud("<ply_path>")`
 `o3d.io.write_point_cloud("<pcd_path>", pcd)`
 
 - Нажать __X__ - перейти в режим разметки/выйти из него. В режиме разметки можно размечать коробки
-- Нажать на __Save__ в Menubar. Результат сохранится в "<pcd_path>.txt". В этом файле лежат только описания короб в следующем формате:
+- Нажать на __File__, __Save__ в Menubar. Результат сохранится в "<pcd_path>.txt". В этом файле лежат только описания короб в следующем формате:
 
 label x y z length width height yaw, где плоскость пола - xy
+
 (desk 5.131035 0.391286 -2.334609 16.185757 14.443742 23.234538 0.000000)
 
 ![example1 image](example_new.png)
